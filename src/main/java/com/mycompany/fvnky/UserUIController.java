@@ -4,6 +4,7 @@
  */
 package com.mycompany.fvnky;
 
+import static com.mycompany.fvnky.LoginController.getLoggedInUsername;
 import com.mycompany.fvnky.data.Barang;
 import com.mycompany.fvnky.data.DBConnector;
 import java.io.IOException;
@@ -33,6 +34,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
@@ -512,22 +514,77 @@ private void insertItemTransactions(int idTransaksi) {
 public Button LogoutButton;
 
 @FXML
-    private void logout(ActionEvent event) throws IOException {
-        updateSessionStatusOnClose("0");
+private void logout(ActionEvent event) throws IOException {
+    // Tampilkan alert konfirmasi sebelum logout
+    Alert alert = new Alert(AlertType.CONFIRMATION);
+    alert.setTitle("Logout Confirmation");
+    alert.setHeaderText(null);
+    alert.setContentText("Are you sure you want to logout?");
+    
+    // Tambahkan opsi OK dan Cancel ke dalam alert
+    ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
+    ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+    alert.getButtonTypes().setAll(okButton, cancelButton);
+    
+    // Tampilkan alert dan tunggu respons pengguna
+    Optional<ButtonType> result = alert.showAndWait();
+    if (result.isPresent() && result.get() == okButton) {
+        // Jika pengguna menekan OK, lakukan logout
+        int userId = getUserIdFromUsername(getLoggedInUsername()); // Ambil ID pengguna dari nama pengguna yang sedang login
+        saveLogoutActivity(userId); // Panggil metode untuk menyimpan aktivitas logout
+        updateSessionStatusOnClose("0"); // Perbarui status sesi pengguna menjadi 0 saat logout
 
-        // Load the login page
+        // Lakukan proses logout seperti biasa
         FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
         Parent root = loader.load();
         Dimension2D sceneSize = new Dimension2D(1080, 720);
         Scene scene = new Scene(root, sceneSize.getWidth(), sceneSize.getHeight());
 
-        // Get the stage from the action event
         Stage stage = (Stage) LogoutButton.getScene().getWindow();
-
-        // Set the new scene to the stage
         stage.setScene(scene);
         stage.show();
+    } else {
+        // Jika pengguna menekan Cancel atau menutup alert, tidak melakukan logout
+        System.out.println("Logout cancelled.");
     }
+}
+
+// Method untuk menyimpan aktivitas logout ke dalam tabel activity
+private void saveLogoutActivity(int userId) {
+    String activity = "Logout"; // Aktivitas adalah Logout
+    String user = getLoggedInUsername(); // Ambil nama pengguna yang sedang login
+    LocalDateTime dateTime = LocalDateTime.now(); // Ambil waktu saat ini
+    
+    // Bangun deskripsi aktivitas logout
+    String description = "User " + user + " logged out at " + dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    
+    // Panggil metode untuk menyimpan aktivitas logout ke dalam tabel activity
+    insertActivity(activity, user, dateTime, description);
+}
+
+// Method untuk mendapatkan ID pengguna berdasarkan nama pengguna
+private int getUserIdFromUsername(String username) {
+    int userId = -1; // Inisialisasi nilai default jika pengguna tidak ditemukan
+    String query = "SELECT id FROM user WHERE username = ?";
+
+    try (Connection connection = DBConnector.getConnection();
+         PreparedStatement statement = connection.prepareStatement(query)) {
+        // Set nilai parameter query
+        statement.setString(1, username);
+
+        // Eksekusi query
+        ResultSet resultSet = statement.executeQuery();
+
+        // Ambil ID pengguna jika ada hasil dari query
+        if (resultSet.next()) {
+            userId = resultSet.getInt("id");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return userId;
+}
 
     public static void updateSessionStatusOnClose(String sessionStatus) {
         try {
@@ -553,5 +610,41 @@ public Button LogoutButton;
             e.printStackTrace();
         }
     }
+    
+    public static void saveLoginActivity(int userId) {
+    String activity = "Login"; // Aktivitas adalah Login
+    String user = getLoggedInUsername(); // Ambil nama pengguna yang berhasil login
+    LocalDateTime dateTime = LocalDateTime.now(); // Ambil waktu saat ini
+    
+    // Bangun deskripsi aktivitas login
+    String description = "User " + user + " logged in at " + dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    
+    // Panggil metode untuk menyimpan aktivitas login ke dalam tabel activity
+    insertActivityLogin(activity, user, dateTime, description);
+}
+
+// Method untuk memasukkan data ke dalam tabel activity di database
+private static void insertActivityLogin(String activity, String user, LocalDateTime dateTime, String description) {
+    // SQL query untuk memasukkan data ke dalam tabel activity
+    String query = "INSERT INTO activity (activity, user, datetime, description) VALUES (?, ?, ?, ?)";
+
+    try (Connection connection = DBConnector.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
+        // Set nilai parameter query
+        statement.setString(1, activity);
+        statement.setString(2, user);
+        statement.setObject(3, dateTime);
+        statement.setString(4, description);
+
+        // Eksekusi query
+        statement.executeUpdate();
+
+        // Tampilkan pesan sukses jika data berhasil dimasukkan
+        System.out.println("Data aktivitas login berhasil dimasukkan ke dalam tabel activity.");
+    } catch (SQLException e) {
+        // Tangani jika terjadi error saat memasukkan data
+        e.printStackTrace();
+    }
+}
 
 }

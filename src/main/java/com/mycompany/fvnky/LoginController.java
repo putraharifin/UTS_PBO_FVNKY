@@ -65,6 +65,8 @@ public class LoginController {
             }
 
         }
+        int userId = user.getId(); // Ambil ID pengguna yang berhasil login
+        UserUIController.saveLoginActivity(userId); // Panggil metode untuk menyimpan aktivitas login
     }
 
     public static String hashPassword(String password) {
