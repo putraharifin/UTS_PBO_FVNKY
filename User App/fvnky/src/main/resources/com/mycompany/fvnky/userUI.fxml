@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1080.0" style="-fx-background-color: rgb(43,43,43);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.fvnky.UserUIController">
+   <children>
+      <Pane layoutX="10.0" layoutY="10.0" prefHeight="700.0" prefWidth="1060.0" style="-fx-background-color: rgb(43,43,43);">
+         <children>
+            <Label layoutX="12.0" layoutY="18.0" text="Kode" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+            <TextField fx:id="kodeTextField" layoutX="53.0" layoutY="13.0" onAction="#kodeTextFieldActionPerformed" prefHeight="25.0" prefWidth="450.0" style="-fx-background-color: rgb(48,56,64); -fx-text-fill: white;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></TextField>
+            <Separator layoutX="10.0" layoutY="38.0" prefHeight="43.0" prefWidth="1040.0" />
+            <Label layoutX="10.0" layoutY="81.0" text="Nama" textFill="WHITE" />
+            <TextField fx:id="namaTextField" editable="false" layoutX="53.0" layoutY="77.0" prefHeight="25.0" prefWidth="450.0" style="-fx-background-color: rgb(48,56,64); -fx-text-fill: white;" />
+            <Label layoutX="560.0" layoutY="81.0" text="Harga" textFill="WHITE" />
+            <TextField fx:id="hargaTextField" editable="false" layoutX="600.0" layoutY="76.0" prefHeight="25.0" prefWidth="450.0" style="-fx-background-color: rgb(48,56,64); -fx-text-fill: white;" />
+            <Separator layoutX="10.0" layoutY="102.0" prefHeight="43.0" prefWidth="1040.0" />
+            <TableView fx:id="daftarBelanjaTable" editable="true" layoutX="10.0" layoutY="145.0" prefHeight="380.0" prefWidth="1040.0" style="-fx-background-color: #cecece;">
+              <columns>
+                <TableColumn fx:id="colNo" editable="false" prefWidth="46.285770416259766" text="No" />
+                <TableColumn fx:id="colKode" editable="false" prefWidth="128.0" sortable="false" text="Kode" />
+                  <TableColumn fx:id="colNama" editable="false" prefWidth="378.2856903076172" sortable="false" text="Nama" />
+                  <TableColumn fx:id="colHarga" editable="false" prefWidth="175.42852783203125" sortable="false" text="Harga Satuan" />
+                  <TableColumn fx:id="colJumlah" minWidth="0.0" prefWidth="75.42852783203125" sortable="false" text="Jumlah" />
+                  <TableColumn fx:id="colTotal" editable="false" prefWidth="156.0001220703125" resizable="false" sortable="false" text="Total" />
+                  <TableColumn fx:id="colDelete" prefWidth="78.28570556640625" sortable="false" text="Action" />
+              </columns>
+            </TableView>
+            <Label layoutX="814.0" layoutY="545.0" text="Total Belanja" textFill="WHITE" />
+            <Label layoutX="773.0" layoutY="584.0" text="Jumlah yang dibayar" textFill="WHITE" />
+            <Label layoutX="828.0" layoutY="626.0" text="Kembalian" textFill="WHITE" />
+            <TextField fx:id="jumlahDibayarTextField" layoutX="896.0" layoutY="579.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: rgb(48,56,64); -fx-text-fill: white;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="totalBelanja" editable="false" layoutX="896.0" layoutY="540.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: rgb(48,56,64); -fx-text-fill: white;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </TextField>
+            <Button fx:id="saveButton" layoutX="896.0" layoutY="661.0" mnemonicParsing="false" onAction="#saveButtonAction" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: #4B7ECB;" text="Simpan" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <TextField fx:id="Kembalian" editable="false" layoutX="896.0" layoutY="621.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: rgb(48,56,64); -fx-text-fill: white;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </TextField>
+            <DatePicker fx:id="tanggal" editable="false" layoutX="14.0" layoutY="540.0" prefWidth="170.0" showWeekNumbers="true" />
+            <Label layoutX="13.0" layoutY="584.0" text="User LogIn" textFill="WHITE" />
+            <TextField fx:id="userTextField" alignment="CENTER" editable="false" layoutX="14.0" layoutY="609.0" prefHeight="25.0" prefWidth="170.0" style="-fx-background-color: rgb(48,56,64); -fx-text-fill: white;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </TextField>
+            <Button fx:id="LogoutButton" layoutX="14.0" layoutY="661.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="170.0" style="-fx-background-color: #CB4B4B;" text="Logout" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <TextField fx:id="waktuTextField" alignment="CENTER" editable="false" layoutX="193.0" layoutY="540.0" prefHeight="25.0" prefWidth="170.0" style="-fx-background-color: rgb(48,56,64); -fx-text-fill: white;">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </TextField>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

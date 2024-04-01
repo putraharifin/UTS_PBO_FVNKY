@@ -1,0 +1,9 @@
+module-info.class
+com\mycompany\fvnky\App.class
+com\mycompany\fvnky\data\Barang.class
+com\mycompany\fvnky\UserUIController$2.class
+com\mycompany\fvnky\UserUIController.class
+com\mycompany\fvnky\data\DBConnector.class
+com\mycompany\fvnky\data\User.class
+com\mycompany\fvnky\LoginController.class
+com\mycompany\fvnky\UserUIController$1.class
