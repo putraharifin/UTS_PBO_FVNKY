@@ -610,40 +610,4 @@ private int getUserIdFromUsername(String username) {
         }
     }
     
-public static void saveLoginActivity(int userId) {
-    String activity = "Login"; // Aktivitas adalah Login
-    String user = getLoggedInUsername(); // Ambil nama pengguna yang berhasil login
-    LocalDateTime dateTime = LocalDateTime.now(); // Ambil waktu saat ini
-    
-    // Bangun deskripsi aktivitas login
-    String description = "Logged to User App";
-    
-    // Panggil metode untuk menyimpan aktivitas login ke dalam tabel activity
-    insertActivityLogin(activity, user, dateTime, description);
-}
-
-// Method untuk memasukkan data ke dalam tabel activity di database
-private static void insertActivityLogin(String activity, String user, LocalDateTime dateTime, String description) {
-    // SQL query untuk memasukkan data ke dalam tabel activity
-    String query = "INSERT INTO activity (activity, user, datetime, description) VALUES (?, ?, ?, ?)";
-
-    try (Connection connection = DBConnector.getConnection();
-            PreparedStatement statement = connection.prepareStatement(query)) {
-        // Set nilai parameter query
-        statement.setString(1, activity);
-        statement.setString(2, user);
-        statement.setObject(3, dateTime);
-        statement.setString(4, description);
-
-        // Eksekusi query
-        statement.executeUpdate();
-
-        // Tampilkan pesan sukses jika data berhasil dimasukkan
-        System.out.println("Data aktivitas login berhasil dimasukkan ke dalam tabel activity.");
-    } catch (SQLException e) {
-        // Tangani jika terjadi error saat memasukkan data
-        e.printStackTrace();
-    }
-}
-
 }
