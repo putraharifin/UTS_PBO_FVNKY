@@ -647,5 +647,3 @@ private static void insertActivityLogin(String activity, String user, LocalDateT
 }
 
 }
-
-// biar bisa di merge di github
