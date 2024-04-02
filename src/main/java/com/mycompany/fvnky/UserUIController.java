@@ -378,7 +378,7 @@ private AnimationTimer timer;
     
     private void addActivity (){
         // Ambil data dari UI
-    String activity = "Transaksi"; // Isi dengan activity dari UI
+    String activity = "Transaksi " + LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")); // Isi dengan activity dari UI
     String user = userTextField.getText(); // Ambil user dari UI
     LocalDateTime dateTime = LocalDateTime.now(); // Ambil waktu saat ini
     
@@ -395,8 +395,7 @@ private AnimationTimer timer;
     float kembalian = Float.parseFloat(Kembalian.getText());
     
     // Bangun deskripsi
-    String description = "Transaksi pada tanggal " + dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"))
-                       + ", Total Barang: " + totalBarang
+    String description = "Total Barang: " + totalBarang
                        + ", Total Belanja: " + totalBelanja.getText()
                        + ", Jumlah Dibayar: " + jumlahDibayar
                        + ", Kembalian: " + kembalian;
@@ -556,7 +555,7 @@ private void saveLogoutActivity(int userId) {
     LocalDateTime dateTime = LocalDateTime.now(); // Ambil waktu saat ini
     
     // Bangun deskripsi aktivitas logout
-    String description = "User " + user + " logged out at " + dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    String description = "logged out from User App ";
     
     // Panggil metode untuk menyimpan aktivitas logout ke dalam tabel activity
     insertActivity(activity, user, dateTime, description);
@@ -611,13 +610,13 @@ private int getUserIdFromUsername(String username) {
         }
     }
     
-    public static void saveLoginActivity(int userId) {
+public static void saveLoginActivity(int userId) {
     String activity = "Login"; // Aktivitas adalah Login
     String user = getLoggedInUsername(); // Ambil nama pengguna yang berhasil login
     LocalDateTime dateTime = LocalDateTime.now(); // Ambil waktu saat ini
     
     // Bangun deskripsi aktivitas login
-    String description = "User " + user + " logged in at " + dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    String description = "Logged to User App";
     
     // Panggil metode untuk menyimpan aktivitas login ke dalam tabel activity
     insertActivityLogin(activity, user, dateTime, description);
